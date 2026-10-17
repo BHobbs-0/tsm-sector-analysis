@@ -1,0 +1,7 @@
+pandas>=2.0
+openpyxl
+numpy
+scipy
+statsmodels
+scikit-learn
+matplotlib
