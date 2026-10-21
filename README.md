@@ -6,40 +6,16 @@ This project uses Python to answer that question with public data only: the TSMs
 
 ## Key findings
 
-- **Escalated complaints are the clearest warning sign.** Housing associations with more stage 2 complaints (complaints escalated after the first response) have noticeably lower satisfaction, and repairs done on time is the next strongest link. Four operational measures, together with survey method, size and region, explain almost 60% of the differences in satisfaction between housing associations.
-- **How the survey is run changes the score.** Postal surveys score about 10 points higher than online ones, and landlords whose own staff did the interviews score about 4 points higher than expected. Landlords should only be compared like for like.
-- **Deprivation, the survey company and the type of homes don't explain the rest.** None of them adds anything once repairs and complaints are taken into account.
-- **A simple model beat machine learning.** With fewer than 200 housing associations, the more complex models picked up noise rather than real patterns.
-- **Tenants' overall view rests most on a well-maintained home, being listened to and fair treatment.** Being listened to is the sector's biggest opportunity: it matters a lot, yet only about two in three tenants are satisfied with it at a typical housing association.
+Satisfaction scores are the percentage of tenants who are satisfied. Differences between scores are given in **percentage points**, so a rise from 70% to 74% is a rise of 4 points.
 
-## What the findings mean
+1. **[What goes with satisfaction?](#1-what-goes-with-satisfaction)** Stage 2 complaints (complaints escalated after the first response) have the strongest link with low satisfaction, followed by repairs done on time. How the survey is run matters too: postal surveys score about 10 points higher than online ones.
+2. **[How much does a simple model explain?](#2-how-much-does-a-simple-model-explain)** Almost 60% of the differences between housing associations, using four operational measures plus survey method, size and region.
+3. **[What else might explain the differences?](#3-what-else-might-explain-the-differences)** Not deprivation, the survey company or the type of homes. The one thing that does is who did the interviews: landlords whose own staff did them score about 4 points higher than expected.
+4. **[How did things change over a year?](#4-how-did-things-change-over-a-year)** Very little. Low scorers tend to improve by chance alone, and getting better at repairs goes with a small rise in satisfaction.
+5. **[Does machine learning do better?](#5-does-machine-learning-do-better)** No. With fewer than 200 housing associations, the simple regression predicts better than the more complex models.
+6. **[What matters most to tenants?](#6-what-matters-most-to-tenants)** A well-maintained home, being listened to and fair treatment. Being listened to is the biggest opportunity: it matters a lot, yet only about two in three tenants are satisfied with it at a typical housing association.
 
-Throughout, "points" means percentage points: if satisfaction rises from 70% to 74%, that's a rise of 4 points.
-
-**Escalated complaints are an early warning.** A stage 2 complaint means a tenant's problem wasn't put right the first time. Housing associations with more of them have lower satisfaction, so the number reaching stage 2 is worth watching closely, alongside repairs on time. The link could run both ways, though: unhappy tenants may also be more likely to escalate.
-
-**Landlords need to be compared like with like.** A landlord that switched from a postal survey to an online one could see its score fall by several points without the service changing at all. So a league table of every landlord partly ranks how they ran their surveys. The fairest comparison is with landlords using the same survey method, and a change of method should be treated as a break in the trend.
-
-**Context doesn't explain away a low score.** Deprivation, the survey company and the type of homes make no clear difference once repairs and complaints are allowed for. A low score can't simply be put down to where a landlord's homes are or what kind of homes they are. The differences that remain are more likely to be about the service itself.
-
-**Year-on-year changes need care.** Low scorers tend to improve by chance, so a rise after a bad year isn't necessarily proof that something worked. In the same way, a fall after a very good year isn't necessarily a sign of decline.
-
-**Simple models are the right tool here.** With fewer than 200 housing associations, a well-checked regression was more accurate than machine learning, and it's much easier to explain to a manager or a board. Complex models are worth trying again once more years of data are available.
-
-**Not everything shows up in the operational figures.** About half of the struggling housing associations have ordinary-looking repairs and complaints figures. Two of the things tenants care about most, being listened to and being treated fairly, are about how tenants are dealt with day to day rather than anything the operational measures count. A landlord's own data, such as individual survey responses, complaint themes and tenants' comments, is the place to look for those.
-
-**Next for this project:** add the 2025/26 TSMs when they're published, to give a third year for the change analysis.
-
-## Contents
-
-1. [What goes with satisfaction?](#1-what-goes-with-satisfaction)
-2. [How much does a simple model explain?](#2-how-much-does-a-simple-model-explain)
-3. [What else might explain the differences?](#3-what-else-might-explain-the-differences)
-4. [How did things change over a year?](#4-how-did-things-change-over-a-year)
-5. [Does machine learning do better?](#5-does-machine-learning-do-better)
-6. [What matters most to tenants?](#6-what-matters-most-to-tenants)
-
-Also: [the notebooks](#the-notebooks), [method](#method), [limitations](#limitations), [terms used](#terms-used) and [how to run it](#data-and-how-to-run).
+Section 7 sets out [what this means](#7-what-this-means) for landlords and anyone comparing them. Also: [the notebooks](#the-notebooks), [method](#method), [limitations](#limitations), [terms used](#terms-used) and [how to run it](#data-and-how-to-run).
 
 ---
 
@@ -191,6 +167,22 @@ The interviewing result fits with tenants answering more positively when their o
 - Medians here are for housing associations only, so they differ slightly from the all-landlord figures in section 1.
 
 </details>
+
+## 7. What this means
+
+**Escalated complaints are an early warning.** A stage 2 complaint means a tenant's problem wasn't put right the first time. Housing associations with more of them have lower satisfaction, so the number reaching stage 2 is worth watching closely, alongside repairs on time. The link could run both ways, though: unhappy tenants may also be more likely to escalate.
+
+**Landlords need to be compared like with like.** A landlord that switched from a postal survey to an online one could see its score fall by several points without the service changing at all. So a league table of every landlord partly ranks how they ran their surveys. The fairest comparison is with landlords using the same survey method, and a change of method should be treated as a break in the trend.
+
+**Context doesn't explain away a low score.** Deprivation, the survey company and the type of homes make no clear difference once repairs and complaints are allowed for. A low score can't simply be put down to where a landlord's homes are or what kind of homes they are. The differences that remain are more likely to be about the service itself.
+
+**Year-on-year changes need care.** Low scorers tend to improve by chance, so a rise after a bad year isn't necessarily proof that something worked. In the same way, a fall after a very good year isn't necessarily a sign of decline.
+
+**Simple models are the right tool here.** With fewer than 200 housing associations, a well-checked regression was more accurate than machine learning, and it's much easier to explain to a manager or a board. Complex models are worth trying again once more years of data are available.
+
+**Not everything shows up in the operational figures.** About half of the struggling housing associations have ordinary-looking repairs and complaints figures. Two of the things tenants care about most, being listened to and being treated fairly, are about how tenants are dealt with day to day rather than anything the operational measures count. A landlord's own data, such as individual survey responses, complaint themes and tenants' comments, is the place to look for those.
+
+**Next for this project:** add the 2025/26 TSMs when they're published, to give a third year for the change analysis.
 
 ---
 
