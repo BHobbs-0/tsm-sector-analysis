@@ -28,15 +28,11 @@ Section 7 sets out [what this means](#7-what-this-means) for landlords and anyon
 - **Stage 2 complaints have the strongest link with low satisfaction.** Housing associations with more of them per 1,000 homes tend to have clearly lower overall satisfaction. **Repairs done on time** goes with higher satisfaction, especially with how long repairs take.
 - **The survey method makes a big difference.** Landlords that surveyed mainly by post have a typical overall satisfaction of 77.6%, against 67.9% for those surveying online. So every comparison in this project is made like for like.
 
-<a href="charts/1_survey_method.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/1_survey_method.png">
-  <img alt="Satisfaction by survey method" src="charts/1_survey_method.png">
-</picture></a>
+![Satisfaction by survey method](charts/1_survey_method.png#gh-light-mode-only)
+![Satisfaction by survey method](charts/dark/1_survey_method.png#gh-dark-mode-only)
 
-<a href="charts/2_drivers.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/2_drivers.png">
-  <img alt="What moves with satisfaction" src="charts/2_drivers.png">
-</picture></a>
+![What moves with satisfaction](charts/2_drivers.png#gh-light-mode-only)
+![What moves with satisfaction](charts/dark/2_drivers.png#gh-dark-mode-only)
 
 <details>
 <summary>Technical detail</summary>
@@ -55,15 +51,11 @@ Section 7 sets out [what this means](#7-what-this-means) for landlords and anyon
 - **The size of the effects:** going from a typical low performer to a typical high performer is worth about 3.9 points of satisfaction on stage 2 complaints and 2.3 points on repairs on time.
 - **The model gets 57% of housing associations to within 5 points.** Those further away, above or below, are where something the operational figures don't show is going on. Small landlords are harder to predict because they survey fewer tenants.
 
-<a href="charts/3_model_effects.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/3_model_effects.png">
-  <img alt="Regression results" src="charts/3_model_effects.png">
-</picture></a>
+![Regression results](charts/3_model_effects.png#gh-light-mode-only)
+![Regression results](charts/dark/3_model_effects.png#gh-dark-mode-only)
 
-<a href="charts/4_actual_vs_predicted.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/4_actual_vs_predicted.png">
-  <img alt="Actual against predicted" src="charts/4_actual_vs_predicted.png">
-</picture></a>
+![Actual against predicted](charts/4_actual_vs_predicted.png#gh-light-mode-only)
+![Actual against predicted](charts/dark/4_actual_vs_predicted.png#gh-dark-mode-only)
 
 <details>
 <summary>Technical detail</summary>
@@ -91,15 +83,11 @@ I checked five other possible explanations. Most were added to the model to see 
 
 The interviewing result fits with tenants answering more positively when their own landlord's staff ask the questions. It's worth bearing in mind when comparing any landlord's TSMs.
 
-<a href="charts/9_explanations_tested.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/9_explanations_tested.png">
-  <img alt="Everything tested" src="charts/9_explanations_tested.png">
-</picture></a>
+![Everything tested](charts/9_explanations_tested.png#gh-light-mode-only)
+![Everything tested](charts/dark/9_explanations_tested.png#gh-dark-mode-only)
 
-<a href="charts/7_funnel_plot.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/7_funnel_plot.png">
-  <img alt="Funnel plot" src="charts/7_funnel_plot.png">
-</picture></a>
+![Funnel plot](charts/7_funnel_plot.png#gh-light-mode-only)
+![Funnel plot](charts/dark/7_funnel_plot.png#gh-dark-mode-only)
 
 <details>
 <summary>Technical detail and more charts</summary>
@@ -109,20 +97,14 @@ The interviewing result fits with tenants answering more positively when their o
 - Own-staff interviewing: +3.9 points (95% confidence interval +0.3 to +7.4). Survey company and weighting tested with nested F-tests.
 - Each explanation is judged by the change in cross-validated R² on the same landlords.
 
-<a href="charts/5_deprivation_scatter.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/5_deprivation_scatter.png">
-  <img alt="Deprivation and satisfaction" src="charts/5_deprivation_scatter.png">
-</picture></a>
+![Deprivation and satisfaction](charts/5_deprivation_scatter.png#gh-light-mode-only)
+![Deprivation and satisfaction](charts/dark/5_deprivation_scatter.png#gh-dark-mode-only)
 
-<a href="charts/6_deprivation_effects.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/6_deprivation_effects.png">
-  <img alt="Effect of each deprivation score" src="charts/6_deprivation_effects.png">
-</picture></a>
+![Effect of each deprivation score](charts/6_deprivation_effects.png#gh-light-mode-only)
+![Effect of each deprivation score](charts/dark/6_deprivation_effects.png#gh-dark-mode-only)
 
-<a href="charts/8_survey_company.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/8_survey_company.png">
-  <img alt="Residuals by survey company" src="charts/8_survey_company.png">
-</picture></a>
+![Residuals by survey company](charts/8_survey_company.png#gh-light-mode-only)
+![Residuals by survey company](charts/dark/8_survey_company.png#gh-dark-mode-only)
 
 </details>
 
@@ -134,15 +116,11 @@ The interviewing result fits with tenants answering more positively when their o
 - **Low scorers tend to improve by chance, and high scorers tend to slip.** A landlord on 60% would be expected to rise about 3 points, and one on 90% to fall about 1, with no change in service at all. This is **regression to the mean**, and any year-on-year comparison needs to allow for it.
 - **Getting better at repairs goes with a small rise in satisfaction.** A housing association that improved repairs on time by 10 percentage points would expect about 0.7 points more satisfaction. Changes in complaint numbers show no clear link, possibly because the Complaint Handling Code became law on 1 April 2024 and changed what landlords record.
 
-<a href="charts/10_sector_change.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/10_sector_change.png">
-  <img alt="Sector change on each measure" src="charts/10_sector_change.png">
-</picture></a>
+![Sector change on each measure](charts/10_sector_change.png#gh-light-mode-only)
+![Sector change on each measure](charts/dark/10_sector_change.png#gh-dark-mode-only)
 
-<a href="charts/11_regression_to_mean.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/11_regression_to_mean.png">
-  <img alt="Regression to the mean" src="charts/11_regression_to_mean.png">
-</picture></a>
+![Regression to the mean](charts/11_regression_to_mean.png#gh-light-mode-only)
+![Regression to the mean](charts/dark/11_regression_to_mean.png#gh-dark-mode-only)
 
 <details>
 <summary>Technical detail and more charts</summary>
@@ -150,10 +128,8 @@ The interviewing result fits with tenants answering more positively when their o
 - Correlation of overall satisfaction between the two years: 0.91.
 - Change models are first-difference regressions (change in satisfaction against change in each operational measure), with robustness checks. Repairs on time: about +0.07 points per point, half the single-year estimate (0.17). Noise in both years pulls change estimates towards zero (attenuation).
 
-<a href="charts/12_single_year_vs_change.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/12_single_year_vs_change.png">
-  <img alt="Single-year link against change link" src="charts/12_single_year_vs_change.png">
-</picture></a>
+![Single-year link against change link](charts/12_single_year_vs_change.png#gh-light-mode-only)
+![Single-year link against change link](charts/dark/12_single_year_vs_change.png#gh-dark-mode-only)
 
 </details>
 
@@ -165,15 +141,11 @@ The interviewing result fits with tenants answering more positively when their o
 - **The machine learning models back up the main finding.** The random forest relies almost entirely on stage 2 complaints, and hints that repairs on time matters most once a landlord is above about 80%.
 - **Struggling landlords can be flagged, but half are missed.** A model trained to spot housing associations in the bottom quarter for satisfaction works well overall, but misses 23 of the 49. Their repairs and complaints figures look fairly ordinary, so their problem doesn't show up in the operational data.
 
-<a href="charts/13_model_comparison.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/13_model_comparison.png">
-  <img alt="Model comparison" src="charts/13_model_comparison.png">
-</picture></a>
+![Model comparison](charts/13_model_comparison.png#gh-light-mode-only)
+![Model comparison](charts/dark/13_model_comparison.png#gh-dark-mode-only)
 
-<a href="charts/16_risk_vs_actual.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/16_risk_vs_actual.png">
-  <img alt="Predicted risk against actual satisfaction" src="charts/16_risk_vs_actual.png">
-</picture></a>
+![Predicted risk against actual satisfaction](charts/16_risk_vs_actual.png#gh-light-mode-only)
+![Predicted risk against actual satisfaction](charts/dark/16_risk_vs_actual.png#gh-dark-mode-only)
 
 <details>
 <summary>Technical detail and more charts</summary>
@@ -182,15 +154,11 @@ The interviewing result fits with tenants answering more positively when their o
 - Importance from permutation importance; shape from partial dependence curves.
 - Bottom-quartile classifier: logistic regression, cross-validated AUC about 0.85.
 
-<a href="charts/14_feature_importance.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/14_feature_importance.png">
-  <img alt="Feature importance" src="charts/14_feature_importance.png">
-</picture></a>
+![Feature importance](charts/14_feature_importance.png#gh-light-mode-only)
+![Feature importance](charts/dark/14_feature_importance.png#gh-dark-mode-only)
 
-<a href="charts/15_partial_dependence.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/15_partial_dependence.png">
-  <img alt="Partial dependence" src="charts/15_partial_dependence.png">
-</picture></a>
+![Partial dependence](charts/15_partial_dependence.png#gh-light-mode-only)
+![Partial dependence](charts/dark/15_partial_dependence.png#gh-dark-mode-only)
 
 </details>
 
@@ -202,15 +170,11 @@ The interviewing result fits with tenants answering more positively when their o
 - **The three biggest drivers are a well-maintained home (12.9% of what's explained), being listened to (12.4%) and being treated fairly and with respect (11.4%).** The top two stay in the top three however the data is resampled.
 - **Being listened to is the clearest opportunity.** It's the second biggest driver, and only 65.5% of tenants are satisfied with it at a typical housing association. Complaints handling has the most room to improve (38.7% at a typical housing association). A well-maintained home matters most but already scores fairly well (74.7%).
 
-<a href="charts/17_key_drivers.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/17_key_drivers.png">
-  <img alt="Key drivers" src="charts/17_key_drivers.png">
-</picture></a>
+![Key drivers](charts/17_key_drivers.png#gh-light-mode-only)
+![Key drivers](charts/dark/17_key_drivers.png#gh-dark-mode-only)
 
-<a href="charts/18_priority_matrix.png"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="charts/dark/18_priority_matrix.png">
-  <img alt="Priority matrix" src="charts/18_priority_matrix.png">
-</picture></a>
+![Priority matrix](charts/18_priority_matrix.png#gh-light-mode-only)
+![Priority matrix](charts/dark/18_priority_matrix.png#gh-dark-mode-only)
 
 <details>
 <summary>Technical detail</summary>
