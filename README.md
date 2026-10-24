@@ -45,7 +45,7 @@ Satisfaction scores are the percentage of tenants who are satisfied. Differences
 
 - Correlations are Spearman (rank) correlations across 195 housing associations, because several measures are skewed.
 - "Typical" means the median. The survey method medians are across all 353 landlords.
-- Among housing associations alone the survey method gap is smaller (82.8% by post against 75.2% online, from only 8 and 22 landlords). In the regression below, which allows for operations, size and region, postal and online surveys are not clearly different from telephone.
+- Among housing associations, once operations, size and region are allowed for (the regression below), postal surveys are about 2 points above telephone and online surveys about 1.5 points below, and neither difference is statistically clear (95% confidence intervals −3.4 to +7.4 and −5.5 to +2.5).
 
 </details>
 
@@ -212,7 +212,7 @@ The interviewing result fits with tenants answering more positively when their o
 ### What it does not do
 
 - **It does not prove cause and effect.** Unhappy tenants may complain more, as well as complaints making tenants unhappy.
-- **It is not a league table.** Survey method, who did the interviews and regression to the mean all move scores without any change in service.
+- **It is not a league table.** Who did the interviews and regression to the mean can move scores without any change in service, and raw scores differ by survey method.
 - **It does not let context explain away a low score.** Deprivation and the type of homes make no clear difference once repairs and complaints are allowed for, although London housing associations do score lower than the rest even after allowing for everything else.
 - **It does not model councils.** The models use housing associations only, because councils differ in ways the data doesn't capture.
 
@@ -267,7 +267,7 @@ pip install -r requirements.txt jupyter
 jupyter notebook notebooks/          # run 01 to 09 in order
 ```
 
-The notebooks save the charts to `charts/`. The dark versions in `charts/dark/` use the same code with a dark palette, so GitHub can show them automatically in dark mode.
+Run from Jupyter, each notebook saves its charts in a `charts` folder next to it (`notebooks/charts/`), and notebook 05 saves `landlord_deprivation.csv` there too. The copies in the repository's `charts/` folder have a border added for this page, and the dark versions in `charts/dark/` were made by running the same chart code with a dark palette, so GitHub can show them automatically in dark mode.
 
 ## Outputs
 
