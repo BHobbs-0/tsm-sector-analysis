@@ -1,32 +1,31 @@
-# What drives tenant satisfaction in social housing?
+# What drives tenant satisfaction in social housing? Explaining and comparing England's Tenant Satisfaction Measures
 
-Every social landlord in England with 1,000 or more homes now reports the same tenant satisfaction survey results to the Regulator of Social Housing: the **Tenant Satisfaction Measures (TSMs)**. That makes it possible, for the first time, to compare landlords on the same measures and ask what separates the ones tenants are happy with from the ones they aren't.
+Every social landlord in England with 1,000 or more homes now reports the same tenant satisfaction survey results to the Regulator of Social Housing: the **Tenant Satisfaction Measures (TSMs)**. For the first time, landlords can be compared on the same measures, but a raw league table hides a lot: how each survey was run, the type of landlord, and chance.
 
-This project uses Python to answer that question with public data only: the TSMs for 2023/24 and 2024/25, the Statistical Data Return (stock data) and the English Indices of Deprivation 2025.
+This project uses the TSMs for **353 landlords** (195 housing associations and 158 councils), with the Statistical Data Return (stock data) and the English Indices of Deprivation 2025, to answer five questions:
 
-## Key findings
+1. **Drivers:** which operational measures go with satisfaction, and how much of the difference between housing associations do they explain?
+2. **Other explanations:** do deprivation, survey practice or the type of homes explain the rest?
+3. **Change:** how did satisfaction change between 2023/24 and 2024/25, and did better performance go with higher satisfaction?
+4. **Machine learning:** does it predict better than a simple regression?
+5. **Priorities:** which parts of the service matter most to tenants, and where are the sector's biggest opportunities?
 
 Satisfaction scores are the percentage of tenants who are satisfied. Differences between scores are given in **percentage points**, so a rise from 70% to 74% is a rise of 4 points.
 
-1. **[What goes with satisfaction?](#1-what-goes-with-satisfaction)** Stage 2 complaints (complaints escalated after the first response) have the strongest link with low satisfaction, and repairs done on time goes with higher satisfaction. Scores also differ by survey method: landlords surveying mainly by post score about 10 points higher than those surveying online, so landlords need to be compared like for like.
-2. **[How much does a simple model explain?](#2-how-much-does-a-simple-model-explain)** Almost 60% of the differences between housing associations, using four operational measures plus survey method, size and region.
-3. **[What else might explain the differences?](#3-what-else-might-explain-the-differences)** Not deprivation, the survey company or the type of homes. The one thing that clearly does is who did the interviews: landlords whose own staff did them score about 4 points higher than expected.
-4. **[How did things change over a year?](#4-how-did-things-change-over-a-year)** Very little. Low scorers tend to improve by chance alone, and getting better at repairs goes with a small rise in satisfaction.
-5. **[Does machine learning do better?](#5-does-machine-learning-do-better)** No. With fewer than 200 housing associations, the simple regression predicts better than the more complex models.
-6. **[What matters most to tenants?](#6-what-matters-most-to-tenants)** A well-maintained home, being listened to and fair treatment. Being listened to is the biggest opportunity: it matters a lot, yet only about two in three tenants are satisfied with it at a typical housing association.
+## At a glance
 
-Section 7 sets out [what this means](#7-what-this-means) for landlords and anyone comparing them. Also: [the notebooks](#the-notebooks), [method](#method), [limitations](#limitations), [terms used](#terms-used) and [how to run it](#data-and-how-to-run).
+- **Drivers:** stage 2 complaints (complaints escalated after the first response) have the strongest link with low satisfaction, and repairs done on time goes with higher satisfaction. Four operational measures, with survey method, size and region, explain **almost 60%** of the differences between housing associations.
+- **Comparing landlords:** scores differ by survey method (post about 10 points higher than online across all landlords), and landlords whose own staff did the interviews score **about 4 points higher** than expected. Landlords need to be compared like for like.
+- **Other explanations:** area deprivation, the survey company and the type of homes make no clear difference once repairs and complaints are allowed for.
+- **Change:** satisfaction barely moves from one year to the next. Low scorers tend to improve by chance alone, and getting better at repairs goes with a small rise in satisfaction.
+- **Machine learning:** with fewer than 200 housing associations, the simple regression predicts better than a random forest or gradient boosting.
+- **Priorities:** a well-maintained home, being listened to and fair treatment matter most. **Being listened to is the biggest opportunity**: it matters a lot, yet only about two in three tenants are satisfied with it at a typical housing association.
 
----
+## Explaining satisfaction
 
-## 1. What goes with satisfaction?
+**At the typical (median) landlord, 71.8% of tenants are satisfied overall, but only 35.5% of tenants who complained are satisfied with how their complaint was handled.**
 
-*Notebooks [01](notebooks/01_load_and_explore.ipynb) and [02](notebooks/02_join_and_explore.ipynb)*
-
-- The data covers **353 landlords**: 195 housing associations and 158 councils.
-- **Complaints handling has by far the lowest scores.** At a typical landlord only 35.5% of tenants who complained were satisfied with how it was handled. **Being listened to** is the measure that varies most from one landlord to another.
-- **Stage 2 complaints have the strongest link with low satisfaction.** Housing associations with more of them per 1,000 homes tend to have clearly lower overall satisfaction. **Repairs done on time** goes with higher satisfaction, especially with how long repairs take.
-- **Scores differ a lot by survey method.** Landlords that surveyed mainly by post have a typical overall satisfaction of 77.6%, against 67.9% for those surveying online. Some of that gap comes from other differences between the landlords using each method (see the technical detail), but it's why the models allow for survey method.
+### What goes with satisfaction?
 
 ![Satisfaction by survey method](charts/1_survey_method.png#gh-light-mode-only)
 ![Satisfaction by survey method](charts/dark/1_survey_method.png#gh-dark-mode-only)
@@ -34,30 +33,38 @@ Section 7 sets out [what this means](#7-what-this-means) for landlords and anyon
 ![What moves with satisfaction](charts/2_drivers.png#gh-light-mode-only)
 ![What moves with satisfaction](charts/dark/2_drivers.png#gh-dark-mode-only)
 
+*Each dot is a landlord. Spearman correlation measures how closely two measures rank landlords in the same order, from −1 to +1.*
+
+- **Stage 2 complaints have the strongest link with low satisfaction.** Housing associations with more of them per 1,000 homes tend to have clearly lower overall satisfaction (Spearman −0.65).
+- **Repairs done on time** goes with higher satisfaction, especially with how long repairs take (+0.39).
+- **Scores differ a lot by survey method.** Landlords that surveyed mainly by post have a typical overall satisfaction of 77.6%, against 67.9% for those surveying online. Some of that gap comes from other differences between the landlords using each method, but it's why the models allow for survey method.
+- **Complaints handling has by far the lowest scores**, and **being listened to** is the measure that varies most from one landlord to another.
+
 <details>
 <summary>Technical detail</summary>
 
-- Correlations are Spearman (rank) correlations across 195 housing associations, because several measures are skewed. Stage 2 complaints per 1,000 homes: −0.65 with overall satisfaction. Repairs on time: +0.39 with satisfaction with repair time.
+- Correlations are Spearman (rank) correlations across 195 housing associations, because several measures are skewed.
 - "Typical" means the median. The survey method medians are across all 353 landlords.
-- Among housing associations alone the gap is smaller (82.8% by post against 75.2% online, from only 8 and 22 landlords). In the section 2 model, which allows for operations, size and region, postal and online surveys are not clearly different from telephone.
+- Among housing associations alone the survey method gap is smaller (82.8% by post against 75.2% online, from only 8 and 22 landlords). In the regression below, which allows for operations, size and region, postal and online surveys are not clearly different from telephone.
 
 </details>
 
-## 2. How much does a simple model explain?
-
-*Notebooks [03](notebooks/03_regression_model.ipynb) and [04](notebooks/04_charts.ipynb)*
-
-- **A regression model explains almost 60% of the differences** in overall satisfaction between housing associations. Context on its own (survey method, size and region) explains about a third, so repairs and complaints add a lot on top.
-- **It holds up on landlords it hasn't seen.** Tested on landlords left out while it was built, it still explains around 40 to 50% of the differences, depending on how the landlords are split, against under a fifth for context alone.
-- **The size of the effects:** going from a typical low performer to a typical high performer is worth about 3.9 points of satisfaction on stage 2 complaints and 2.3 points on repairs on time.
-- **Region matters too.** London housing associations score about 7.5 points lower than those in the South, even with operations allowed for.
-- **The model gets 57% of housing associations to within 5 points.** Those further away, above or below, are where something the operational figures don't show is going on. Small landlords are harder to predict because they survey fewer tenants.
+### How much does a simple model explain?
 
 ![Regression results](charts/3_model_effects.png#gh-light-mode-only)
 ![Regression results](charts/dark/3_model_effects.png#gh-dark-mode-only)
 
+*Each dot is the change in overall satisfaction from moving a typical low performer to a typical high performer (25th to 75th percentile) on that measure, with everything else held the same. Whiskers are 95% confidence intervals: if one crosses zero, the direction of the effect is uncertain.*
+
+- **A regression model explains almost 60% of the differences** in overall satisfaction between housing associations. Context on its own (survey method, size and region) explains about a third, so repairs and complaints add a lot on top.
+- **Stage 2 complaints matter most** (about 3.9 points), then **repairs on time** (2.3 points).
+- **Region matters too.** London housing associations score about 7.5 points lower than those in the South, even with operations allowed for.
+- **It holds up on landlords it hasn't seen.** Tested on landlords left out while it was built, it still explains around 40 to 50% of the differences, depending on how the landlords are split, against under a fifth for context alone.
+
 ![Actual against predicted](charts/4_actual_vs_predicted.png#gh-light-mode-only)
 ![Actual against predicted](charts/dark/4_actual_vs_predicted.png#gh-dark-mode-only)
+
+The model gets **57% of housing associations to within 5 points** of their actual score. Those further away, above or below, are where something the operational figures don't show is going on. Small landlords are harder to predict because they survey fewer tenants.
 
 <details>
 <summary>Technical detail</summary>
@@ -66,16 +73,13 @@ Section 7 sets out [what this means](#7-what-this-means) for landlords and anyon
 - 194 housing associations with complete data. R² 0.59 (context alone 0.32).
 - Cross-validated R²: 0.42 on notebook 3's single 5-fold split (context alone 0.17), and 0.49 averaged over 5-fold cross-validation repeated 10 times (notebook 8).
 - London: −7.5 points against the South (95% confidence interval −11.7 to −3.3).
-- "Typical low to typical high" means moving from the 25th to the 75th percentile.
 - Checked for overlapping predictors (all VIFs close to 1) and for influential landlords (Cook's distance).
 
 </details>
 
-## 3. What else might explain the differences?
+### What else might explain the differences?
 
-*Notebooks [05](notebooks/05_deprivation.ipynb) and [06](notebooks/06_survey_and_stock_checks.ipynb)*
-
-I checked five other possible explanations. Most were added to the model to see whether it then predicts unseen landlords better.
+Five other possible explanations were checked. Most were added to the model to see whether it then predicts unseen landlords better.
 
 | Explanation | How it was checked | Result |
 | --- | --- | --- |
@@ -85,13 +89,15 @@ I checked five other possible explanations. Most were added to the model to see 
 | **Who did the interviews** | Landlord's own staff against everyone else (a survey company, or a mix) | **About 4 points higher than predicted** with own staff (26 landlords). The only explanation that clearly improves the model |
 | **Type of homes** | Older people's and supported housing, building age, houses or flats, energy ratings | **No useful effect.** All six measures together make predictions worse (181 landlords with complete data) |
 
-The interviewing result fits with tenants answering more positively when their own landlord's staff ask the questions. It's worth bearing in mind when comparing any landlord's TSMs.
-
 ![Everything tested](charts/9_explanations_tested.png#gh-light-mode-only)
 ![Everything tested](charts/dark/9_explanations_tested.png#gh-dark-mode-only)
 
+The interviewing result fits with tenants answering more positively when their own landlord's staff ask the questions. It's worth bearing in mind when comparing any landlord's TSMs.
+
 ![Funnel plot](charts/7_funnel_plot.png#gh-light-mode-only)
 ![Funnel plot](charts/dark/7_funnel_plot.png#gh-dark-mode-only)
+
+*A funnel plot shows how far each landlord could sit from the average by chance alone, given how many tenants it surveyed. Landlords outside the 99.8% limits are very unlikely to be there by chance.*
 
 <details>
 <summary>Technical detail and more charts</summary>
@@ -112,19 +118,20 @@ The interviewing result fits with tenants answering more positively when their o
 
 </details>
 
-## 4. How did things change over a year?
+## Change over a year
 
-*Notebook [07](notebooks/07_year_on_year.ipynb), 192 housing associations with results for both 2023/24 and 2024/25*
-
-- **Satisfaction barely moves from one year to the next.** Landlords that scored well in 2023/24 nearly always scored well again. All 12 measures rose slightly, by a median of 1.3 points for overall satisfaction and 2.1 for complaints handling.
-- **Low scorers tend to improve by chance, and high scorers tend to slip.** A landlord on 60% would be expected to rise about 3 points, and one on 90% to fall about 1, with no change in service at all. This is **regression to the mean**, and any year-on-year comparison needs to allow for it.
-- **Getting better at repairs goes with a small rise in satisfaction.** A housing association that improved repairs on time by 10 percentage points would expect about 0.7 points more satisfaction. Changes in complaint numbers show no clear link, possibly because the Complaint Handling Code became statutory on 1 April 2024 and changed what landlords record.
+**192 housing associations have results for both 2023/24 and 2024/25.**
 
 ![Sector change on each measure](charts/10_sector_change.png#gh-light-mode-only)
 ![Sector change on each measure](charts/dark/10_sector_change.png#gh-dark-mode-only)
 
+- **Satisfaction barely moves from one year to the next.** Landlords that scored well in 2023/24 nearly always scored well again. All 12 measures rose slightly, by a median of 1.3 points for overall satisfaction and 2.1 for complaints handling.
+- **Getting better at repairs goes with a small rise in satisfaction.** A housing association that improved repairs on time by 10 percentage points would expect about 0.7 points more satisfaction. Changes in complaint numbers show no clear link, possibly because the Complaint Handling Code became statutory on 1 April 2024 and changed what landlords record.
+
 ![Regression to the mean](charts/11_regression_to_mean.png#gh-light-mode-only)
 ![Regression to the mean](charts/dark/11_regression_to_mean.png#gh-dark-mode-only)
+
+**Low scorers tend to improve by chance, and high scorers tend to slip.** A landlord on 60% would be expected to rise about 3 points, and one on 90% to fall about 1, with no change in service at all. This is **regression to the mean**, and any year-on-year comparison needs to allow for it.
 
 <details>
 <summary>Technical detail and more charts</summary>
@@ -137,19 +144,20 @@ The interviewing result fits with tenants answering more positively when their o
 
 </details>
 
-## 5. Does machine learning do better?
-
-*Notebook [08](notebooks/08_machine_learning.ipynb)*
-
-- **No, the simple regression wins.** It predicts unseen landlords better than a random forest or gradient boosting. With fewer than 200 housing associations, the extra flexibility mostly fits noise.
-- **The random forest backs up the main finding.** It relies almost entirely on stage 2 complaints, and hints that repairs on time matters most once a landlord is above about 80%.
-- **Struggling landlords can be flagged, but half are missed.** A model trained to spot housing associations in the bottom quarter for satisfaction works well overall, but misses 23 of the 49. Their repairs and complaints figures look fairly ordinary, so their problem doesn't show up in the operational data.
+## Machine learning against a simple model
 
 ![Model comparison](charts/13_model_comparison.png#gh-light-mode-only)
 ![Model comparison](charts/dark/13_model_comparison.png#gh-dark-mode-only)
 
+*R² is the share of the differences between landlords a model explains. Scores are for landlords the model did not see while it was trained.*
+
+- **The simple regression wins.** It predicts unseen landlords better than a random forest or gradient boosting. With fewer than 200 housing associations, the extra flexibility mostly fits noise.
+- **The random forest backs up the main finding.** It relies almost entirely on stage 2 complaints, and hints that repairs on time matters most once a landlord is above about 80%.
+
 ![Predicted risk against actual satisfaction](charts/16_risk_vs_actual.png#gh-light-mode-only)
 ![Predicted risk against actual satisfaction](charts/dark/16_risk_vs_actual.png#gh-dark-mode-only)
+
+**Struggling landlords can be flagged, but half are missed.** A model trained to spot housing associations in the bottom quarter for satisfaction ranks them well overall, but misses 23 of the 49. Their repairs and complaints figures look fairly ordinary, so their problem doesn't show up in the operational data.
 
 <details>
 <summary>Technical detail and more charts</summary>
@@ -166,19 +174,20 @@ The interviewing result fits with tenants answering more positively when their o
 
 </details>
 
-## 6. What matters most to tenants?
-
-*Notebook [09](notebooks/09_key_drivers.ipynb)*
-
-- **The 11 specific survey questions explain almost all (95%) of the differences in overall satisfaction between housing associations.** They overlap so much that an ordinary regression can't separate them, so I used **dominance analysis**, which shares the credit out fairly between them.
-- **The three biggest drivers are a well-maintained home (12.9% of what's explained), being listened to (12.4%) and being treated fairly and with respect (11.4%).** The top two stay in the top three however the data is resampled.
-- **Being listened to is the clearest opportunity.** It's the second biggest driver, and only 65.5% of tenants are satisfied with it at a typical housing association. Complaints handling has the most room to improve (38.7% at a typical housing association). A well-maintained home matters most but already scores fairly well (74.7%).
+## What matters most to tenants
 
 ![Key drivers](charts/17_key_drivers.png#gh-light-mode-only)
 ![Key drivers](charts/dark/17_key_drivers.png#gh-dark-mode-only)
 
+*Dominance analysis shares out the credit for overall satisfaction fairly between the 11 specific survey questions, which overlap too much for an ordinary regression to separate. Whiskers are bootstrap 95% intervals.*
+
+- **The 11 specific survey questions explain almost all (95%) of the differences in overall satisfaction between housing associations.**
+- **The three biggest drivers are a well-maintained home (12.9% of what's explained), being listened to (12.4%) and being treated fairly and with respect (11.4%).** The top two stay in the top three however the data is resampled.
+
 ![Priority matrix](charts/18_priority_matrix.png#gh-light-mode-only)
 ![Priority matrix](charts/dark/18_priority_matrix.png#gh-dark-mode-only)
+
+**Being listened to is the clearest opportunity.** It's the second biggest driver, and only 65.5% of tenants are satisfied with it at a typical housing association. Complaints handling has the most room to improve (38.7% at a typical housing association). A well-maintained home matters most but already scores fairly well (74.7%).
 
 <details>
 <summary>Technical detail</summary>
@@ -186,47 +195,61 @@ The interviewing result fits with tenants answering more positively when their o
 - 193 housing associations. The 11 measures explain 95% of the variation (R²), with VIFs up to 26.
 - Dominance analysis fits all 2,048 combinations of the 11 measures. It's the same idea as Shapley values in machine learning.
 - Stability checked with 200 bootstrap resamples.
-- Medians here are for housing associations only, so they differ slightly from the all-landlord figures in section 1.
+- Medians here are for housing associations only, so they differ slightly from the all-landlord figures at the top of this page.
 
 </details>
 
-## 7. What this means
+## What the project is for (and what it isn't)
 
-**Escalated complaints are an early warning.** A stage 2 complaint means a tenant's problem wasn't put right the first time. Housing associations with more of them have lower satisfaction, so the number reaching stage 2 is worth watching closely, alongside repairs on time. The link could run both ways, though: unhappy tenants may also be more likely to escalate.
+### How a landlord could use it
 
-**Landlords need to be compared like with like.** Landlords whose own staff did the interviews score about 4 points higher than their repairs and complaints figures predict, and raw scores differ by survey method. So a league table of every landlord partly ranks how they ran their surveys. The fairest comparison is with landlords that ran their surveys the same way, and a change of method or interviewer should be treated as a possible break in the trend.
+- **Watch escalations.** A stage 2 complaint means a tenant's problem wasn't put right the first time. Housing associations with more of them have lower satisfaction, so the number reaching stage 2 is worth watching closely, alongside repairs on time.
+- **Benchmark like with like.** Landlords whose own staff did the interviews score about 4 points higher than their repairs and complaints figures predict, and raw scores differ by survey method. The fairest comparison is with landlords that ran their surveys the same way, and a change of method or interviewer should be treated as a possible break in the trend.
+- **Read year-on-year change carefully.** Low scorers tend to improve by chance, so a rise after a bad year isn't necessarily proof that something worked. In the same way, a fall after a very good year isn't necessarily a sign of decline.
+- **Look beyond the operational figures.** About half of the struggling housing associations have ordinary-looking repairs and complaints figures. Being listened to and being treated fairly are about how tenants are dealt with day to day, and a landlord's own data (individual survey responses, complaint themes and tenants' comments) is the place to look for those.
+- **Keep the model simple.** With fewer than 200 housing associations, a well-checked regression was more accurate than machine learning, and it's much easier to explain to a manager or a board.
 
-**Deprivation and the type of homes don't explain away a low score.** Area deprivation, the survey company and the type of homes make no clear difference once repairs and complaints are allowed for. A low score can't simply be put down to how deprived the area is or what kind of homes a landlord has, although London housing associations do score lower than the rest even after allowing for everything else. The differences that remain are more likely to be about the service itself.
+### What it does not do
 
-**Year-on-year changes need care.** Low scorers tend to improve by chance, so a rise after a bad year isn't necessarily proof that something worked. In the same way, a fall after a very good year isn't necessarily a sign of decline.
+- **It does not prove cause and effect.** Unhappy tenants may complain more, as well as complaints making tenants unhappy.
+- **It is not a league table.** Survey method, who did the interviews and regression to the mean all move scores without any change in service.
+- **It does not let context explain away a low score.** Deprivation and the type of homes make no clear difference once repairs and complaints are allowed for, although London housing associations do score lower than the rest even after allowing for everything else.
+- **It does not model councils.** The models use housing associations only, because councils differ in ways the data doesn't capture.
 
-**Simple models are the right tool here.** With fewer than 200 housing associations, a well-checked regression was more accurate than machine learning, and it's much easier to explain to a manager or a board. Complex models are worth trying again once more years of data are available.
+## Data
 
-**Not everything shows up in the operational figures.** About half of the struggling housing associations have ordinary-looking repairs and complaints figures. Two of the things tenants care about most, being listened to and being treated fairly, are about how tenants are dealt with day to day rather than anything the operational measures count. A landlord's own data, such as individual survey responses, complaint themes and tenants' comments, is the place to look for those.
+**Sources (all public):**
 
-**Next for this project:** add the 2025/26 TSMs when they're published, to give a third year for the change analysis.
-
----
-
-## The notebooks
-
-The notebooks are numbered as steps 1 to 9. The README sections above group them by question.
-
-| Notebook | README section | What it does |
+| File | Used by | Source |
 | --- | --- | --- |
-| [01 Load and explore](notebooks/01_load_and_explore.ipynb) | 1 | Loads the survey results, tidies column names, profiles the 353 landlords, checks data quality and looks at which measures vary most |
-| [02 Join and explore](notebooks/02_join_and_explore.ipynb) | 1 | Adds the repairs, complaints and other operational data, sets out its caveats, compares landlords by size and checks correlations |
-| [03 Regression model](notebooks/03_regression_model.ipynb) | 2 | Builds and checks the regression model of overall satisfaction, then looks at how far landlords sit from their predictions |
-| [04 Charts](notebooks/04_charts.ipynb) | 2 | Builds charts 1 to 4 |
-| [05 Deprivation](notebooks/05_deprivation.ipynb) | 3 | Gives each housing association a deprivation score from where its homes are, and tests it in the model. Charts 5 and 6 |
-| [06 Survey and stock checks](notebooks/06_survey_and_stock_checks.ipynb) | 3 | Tests chance, survey company, who did the interviews and type of homes. Charts 7 to 9 |
-| [07 Year on year](notebooks/07_year_on_year.ipynb) | 4 | Matches landlords across two years, measures regression to the mean and tests whether changes in service go with changes in satisfaction. Charts 10 to 12 |
-| [08 Machine learning](notebooks/08_machine_learning.ipynb) | 5 | Compares the regression with a random forest and gradient boosting, and tests a model to flag struggling landlords. Charts 13 to 16 |
-| [09 Key drivers](notebooks/09_key_drivers.ipynb) | 6 | Works out which survey questions matter most to overall satisfaction, and combines that with how the sector scores. Charts 17 and 18 |
+| `2025_TSM_Full_Data_v1.1_FINAL.xlsx` | Notebooks 1 to 9 | [RSH: Tenant Satisfaction Measures 2024/25](https://www.gov.uk/government/statistics/tenant-satisfaction-measures-202425) |
+| `2024_TSM_Full_Data_v2.1_FINAL.xlsx` | Notebook 7 | [RSH: TSM 2024 data release](https://www.gov.uk/government/statistics/data-release-tsm-2024) (covers 2023/24) |
+| `PRP_Data_Release_2025_Full_Data_FINAL_V1.1.zip` | Notebooks 5 and 6 | [RSH: Private registered provider social housing stock and rents 2024 to 2025](https://www.gov.uk/government/statistics/private-registered-provider-social-housing-stock-and-rents-in-england-2024-to-2025) |
+| `File_10_-_IoD2025_Local_Authority_District_Summaries__lower-tier__v2.xlsx` | Notebook 5 | [MHCLG: English Indices of Deprivation 2025](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025) (File 10, v2) |
 
-Each notebook explains what I did and why as it goes, in notes between the steps and comments in the code, and ends with a summary of what I found.
+**Coverage:** every landlord with 1,000 or more homes in the 2024/25 TSMs: 353 landlords, of which 352 join to their management information. The models use the 195 housing associations; the year-on-year analysis uses the 192 with results in both years.
+
+**Reproducing it**
+
+1. Download the four files above and save them in `data/` under the names shown (see [`data/README.md`](data/README.md)).
+2. Install the requirements and run the notebooks in order (see [Running it](#running-it)).
+3. Or open any notebook in Google Colab, where it shows an upload button and asks for the files it needs.
 
 ## Method
+
+| Step | What happens | Where |
+| --- | --- | --- |
+| Load and join | Survey results and management information joined on landlord code | Notebooks 01, 02 |
+| Explore | Spread of each measure, survey method, operational measures by size, Spearman correlations | 01, 02 |
+| Model | Regression of overall satisfaction on four operational measures plus survey method, size and region, with robust errors, overlap and influence checks, and cross-validation | 03, 04 |
+| Other explanations | Stock-weighted deprivation, funnel plot, survey company, interviewer and weighting, stock profile | 05, 06 |
+| Change | Two years matched, regression to the mean, first-difference regressions with robustness checks | 07 |
+| Machine learning | Random forest and gradient boosting against the regression, permutation importance, partial dependence, bottom-quartile classifier | 08 |
+| Key drivers | Dominance analysis of the 11 survey measures with bootstrap intervals, priority matrix | 09 |
+
+Each notebook explains what is done and why as it goes, in notes between the steps and comments in the code, and ends with a summary of what was found.
+
+### Choices
 
 - **Like-for-like comparisons.** Results are compared within the same survey method where it matters, and the models allow for survey method, size and region.
 - **Housing associations only** for the models, because councils differ in ways the data doesn't capture.
@@ -235,9 +258,55 @@ Each notebook explains what I did and why as it goes, in notes between the steps
 - **Operational measures used to explain overall satisfaction**, because the 12 survey measures are all closely linked to each other. Notebook 9 deals with that overlap directly.
 - **Models compared on landlords they haven't seen** (cross-validation), and the main model checked for overlapping predictors and influential landlords.
 
+## Running it
+
+```bash
+python -m venv .venv
+source .venv/bin/activate            # Windows: .venv\Scripts\activate
+pip install -r requirements.txt jupyter
+jupyter notebook notebooks/          # run 01 to 09 in order
+```
+
+The notebooks save the charts to `charts/`. The dark versions in `charts/dark/` use the same code with a dark palette, so GitHub can show them automatically in dark mode.
+
+## Outputs
+
+| File | Contents |
+| --- | --- |
+| `charts/1_*` to `charts/4_*` | Survey method, operational links, model effects, actual against predicted (notebook 04) |
+| `charts/5_*`, `charts/6_*` | Deprivation (notebook 05) |
+| `charts/7_*` to `charts/9_*` | Funnel plot, survey companies, everything tested (notebook 06) |
+| `charts/10_*` to `charts/12_*` | Year-on-year change (notebook 07) |
+| `charts/13_*` to `charts/16_*` | Machine learning (notebook 08) |
+| `charts/17_*`, `charts/18_*` | Key drivers and priority matrix (notebook 09) |
+| `charts/dark/` | The same 18 charts for GitHub's dark mode |
+| `data/landlord_deprivation.csv` | Stock-weighted deprivation scores for each housing association (built in notebook 05, used by notebook 06) |
+
+## Project structure
+
+```
+├── charts/                          # the 18 charts in this README
+│   └── dark/                        # the same charts for dark mode
+├── data/
+│   ├── README.md                    # where to download each source file
+│   └── landlord_deprivation.csv     # derived deprivation scores
+├── notebooks/
+│   ├── 01_load_and_explore.ipynb    # survey results, data quality, spread
+│   ├── 02_join_and_explore.ipynb    # management information and correlations
+│   ├── 03_regression_model.ipynb    # the main model and its checks
+│   ├── 04_charts.ipynb              # charts 1 to 4
+│   ├── 05_deprivation.ipynb         # stock-weighted deprivation
+│   ├── 06_survey_and_stock_checks.ipynb  # chance, survey practice, type of homes
+│   ├── 07_year_on_year.ipynb        # change between 2023/24 and 2024/25
+│   ├── 08_machine_learning.ipynb    # machine learning comparison
+│   └── 09_key_drivers.ipynb         # key driver analysis
+├── requirements.txt
+└── LICENSE
+```
+
 ## Limitations
 
-- **Linked doesn't mean caused.** Unhappy tenants may complain more, as well as complaints making tenants unhappy. The year-on-year analysis gets closer to cause and effect, but only has one change to work with.
+- **Linked doesn't mean caused.** The year-on-year analysis gets closer to cause and effect, but only has one change to work with.
 - **Landlords report their own operational figures.** "Repairs on time" is measured against each landlord's own target, which ranges from 5 to 260 days. Non-decent homes figures depend on how recently homes were surveyed, and complaints recording changed when the Complaint Handling Code became statutory.
 - **Small numbers.** Fewer than 200 housing associations means a few unusual landlords can sway the results, and some groups are small (26 landlords used their own staff for interviews).
 - **Many tests.** Eight deprivation scores were tested, so a borderline result or two would be expected by chance.
@@ -265,16 +334,13 @@ Each notebook explains what I did and why as it goes, in notes between the steps
 
 </details>
 
-## Data and how to run
+## Ideas for next steps
 
-1. Download the source files listed in [`data/README.md`](data/README.md) and save them in `data/` with the names shown there.
-2. Install the requirements: `pip install -r requirements.txt`
-3. Run the notebooks in order. Each one also runs in Google Colab, where it asks you to upload the files it needs.
+- Add the 2025/26 TSMs when they're published, to give a third year for the change analysis.
+- Repeat the models for councils, allowing for the ways they differ from housing associations.
+- Measure deprivation at neighbourhood (LSOA) level, if stock data by neighbourhood becomes available.
+- Run the key driver analysis on individual tenants' survey responses, which each landlord holds internally.
 
-The charts are saved in `charts/`. Dark versions in `charts/dark/` use the same data with a dark colour palette, and GitHub shows them automatically if you use dark mode.
+## Licence
 
-Contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Sources: Regulator of Social Housing, Tenant Satisfaction Measures 2023/24 and 2024/25 and Statistical Data Return 2025; Ministry of Housing, Communities and Local Government, English Indices of Deprivation 2025.
-
-## About
-
-Ben Hobbs, data analyst in social housing. Built with Python (pandas, statsmodels, scikit-learn, matplotlib). [LinkedIn](https://www.linkedin.com/in/ben-hobbs-608347361/)
+Code: MIT (see `LICENSE`). Data: Open Government Licence v3.0 ([details](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)). Contains public sector information from the Regulator of Social Housing (Tenant Satisfaction Measures 2023/24 and 2024/25, Statistical Data Return 2025) and the Ministry of Housing, Communities and Local Government (English Indices of Deprivation 2025).
